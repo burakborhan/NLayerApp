@@ -1,17 +1,20 @@
-using Autofac.Extensions.DependencyInjection;
 using Autofac;
-using NLayer.WEB.Modules;
+using Autofac.Extensions.DependencyInjection;
+using FluentValidation.AspNetCore;
 using Microsoft.EntityFrameworkCore;
 using NLayer.Data;
-using System.Reflection;
 using NLayer.Service.Mapping;
+using NLayer.Service.Validations;
+using NLayer.WEB;
+using NLayer.WEB.Modules;
+using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddControllersWithViews();
+builder.Services.AddControllersWithViews().AddFluentValidation(x => x.RegisterValidatorsFromAssemblyContaining<ProductDTOValidator>());
 
-
+builder.Services.AddScoped(typeof(NotFoundFilter<>));
 builder.Services.AddAutoMapper(typeof(MapProfile));
 
 builder.Services.AddDbContext<AppDbContext>(x =>
