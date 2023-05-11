@@ -3,17 +3,22 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.5.33530.505
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NLayer.Core", "NLayer.core\NLayer.Core.csproj", "{36838568-D9AB-4543-9781-F42B130B2C2A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NLayer.Core", "NLayer.core\NLayer.Core.csproj", "{36838568-D9AB-4543-9781-F42B130B2C2A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NLayer.Data", "NLayer.data\NLayer.Data.csproj", "{F60CBC0B-9E22-4B70-B8B3-527DCEEDAB4D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NLayer.Data", "NLayer.data\NLayer.Data.csproj", "{F60CBC0B-9E22-4B70-B8B3-527DCEEDAB4D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NLayer.Service", "NLayer.Service\NLayer.Service.csproj", "{21854B51-6769-4309-85D2-CC3B0B27C3A1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NLayer.Service", "NLayer.Service\NLayer.Service.csproj", "{21854B51-6769-4309-85D2-CC3B0B27C3A1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NLayer.API", "NLayer.API\NLayer.API.csproj", "{22CAAF2A-FE81-487F-91A6-344EE0405D0C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NLayer.API", "NLayer.API\NLayer.API.csproj", "{22CAAF2A-FE81-487F-91A6-344EE0405D0C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NLayer.WEB", "NLayer.WEB\NLayer.WEB.csproj", "{8AA61487-0C80-4375-86F8-707FE8D10839}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NLayer.WEB", "NLayer.WEB\NLayer.WEB.csproj", "{8AA61487-0C80-4375-86F8-707FE8D10839}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NLayer.Cashing", "NLayer.Cashing\NLayer.Cashing.csproj", "{230A7B3D-E4DC-404D-8BF7-251C0A99D3E3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NLayer.Cashing", "NLayer.Cashing\NLayer.Cashing.csproj", "{230A7B3D-E4DC-404D-8BF7-251C0A99D3E3}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{FBCE491F-0282-40B2-9782-E18928A84CB1}"
+	ProjectSection(SolutionItems) = preProject
+		Ports.txt = Ports.txt
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -7,6 +7,7 @@ using NLayer.Service.Mapping;
 using NLayer.Service.Validations;
 using NLayer.WEB;
 using NLayer.WEB.Modules;
+using NLayer.WEB.Services;
 using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -25,6 +26,15 @@ builder.Services.AddDbContext<AppDbContext>(x =>
     });
 });
 
+builder.Services.AddHttpClient<ProductApiService>(options =>
+{
+    options.BaseAddress = new Uri(builder.Configuration["BaseUrl"]);
+});
+
+builder.Services.AddHttpClient<CategoryApiService>(options =>
+{
+    options.BaseAddress = new Uri(builder.Configuration["BaseUrl"]);
+});
 
 builder.Host.UseServiceProviderFactory(new AutofacServiceProviderFactory());
 builder.Host.ConfigureContainer<ContainerBuilder>(containerBuilder => containerBuilder.RegisterModule(new RepoServiceModule()));
