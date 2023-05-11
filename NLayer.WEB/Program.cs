@@ -1,7 +1,10 @@
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using FluentValidation.AspNetCore;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using NLayer.Core.Models;
 using NLayer.Data;
 using NLayer.Service.Mapping;
 using NLayer.Service.Validations;
@@ -14,8 +17,18 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews().AddFluentValidation(x => x.RegisterValidatorsFromAssemblyContaining<ProductDTOValidator>());
 
+builder.Services.AddIdentity<AppUser,AppRole>(options =>
+{
+    options.User.RequireUniqueEmail = true;
+    options.User.AllowedUserNameCharacters = "abcçdefgðhiýjklmnöopqrsþtüuvwxyzABCÇDEFÐGHIÝJKLMNOÖPQRSÞTUÜVWXYZ0123456789-._@+/ ";
+})
+        .AddEntityFrameworkStores<AppDbContext>()
+        .AddTokenProvider<DataProtectorTokenProvider<AppUser>>(TokenOptions.DefaultProvider);
+
 builder.Services.AddScoped(typeof(NotFoundFilter<>));
 builder.Services.AddAutoMapper(typeof(MapProfile));
+
+
 
 builder.Services.AddDbContext<AppDbContext>(x =>
 {
@@ -28,6 +41,36 @@ builder.Services.AddDbContext<AppDbContext>(x =>
 
 builder.Host.UseServiceProviderFactory(new AutofacServiceProviderFactory());
 builder.Host.ConfigureContainer<ContainerBuilder>(containerBuilder => containerBuilder.RegisterModule(new RepoServiceModule()));
+
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(
+         "AllowOrigin",
+         builder =>
+builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
+});
+
+
+
+
+
+
+CookieBuilder cookieBuilder = new CookieBuilder();
+cookieBuilder.Name = "User";
+cookieBuilder.HttpOnly = true;
+cookieBuilder.SameSite = SameSiteMode.Lax;
+cookieBuilder.SecurePolicy = CookieSecurePolicy.None;
+
+builder.Services.ConfigureApplicationCookie(Options =>
+{
+    Options.LoginPath = new PathString("/Home/Login");
+    Options.Cookie = cookieBuilder;
+    Options.SlidingExpiration = true;
+    Options.ExpireTimeSpan = TimeSpan.FromDays(14);
+
+});
+
 
 var app = builder.Build();
 
@@ -44,10 +87,19 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+app.UseAuthentication();
 app.UseAuthorization();
+
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+    pattern: "{controller=Home}/{action=Login}/{id?}");
+
+app.UseCors(x =>
+{
+    x.AllowAnyOrigin()
+        .AllowAnyMethod()
+        .AllowAnyHeader();
+});
 
 app.Run();

@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using NLayer.Core.DTO_s;
@@ -8,6 +9,7 @@ using NLayer.Service.Services;
 
 namespace NLayer.WEB.Controllers
 {
+    [Authorize]
     public class ProductsController : Controller
     {
         private readonly IProductService _productService;
@@ -20,12 +22,12 @@ namespace NLayer.WEB.Controllers
             _categoryService = categoryService;
             _mapper = mapper;
         }
-
+        
         public async Task<IActionResult> Index()
         {
             return View(await _productService.GetProductWithCategory());
         }
-
+        
         public async Task<IActionResult> Save()
         {
             var categories = await _categoryService.GetAllAsync();
@@ -34,7 +36,7 @@ namespace NLayer.WEB.Controllers
             ViewBag.Categories = new SelectList(categoriesDto, "Id", "Name");
             return View();
         }
-
+        
         [HttpPost]
         public async Task<IActionResult> Save(ProductDTO productDTO)
         {
@@ -50,6 +52,7 @@ namespace NLayer.WEB.Controllers
             ViewBag.Categories = new SelectList(categoriesDto, "Id", "Name");
             return View();
         }
+    
         [ServiceFilter(typeof(NotFoundFilter<Product>))]
         public async Task<IActionResult>Update(int id)
         {
@@ -61,6 +64,7 @@ namespace NLayer.WEB.Controllers
 
             return View(_mapper.Map<ProductDTO>(product));
         }
+
         [HttpPost]
         public async Task<IActionResult>Update(ProductDTO productDTO)
         {
@@ -75,11 +79,16 @@ namespace NLayer.WEB.Controllers
             ViewBag.Categories = new SelectList(categoriesDto, "Id", "Name",productDTO.CategoryId);
             return View(productDTO);
         }
-
+ 
         public async Task<IActionResult> Remove(int id)
         {
             await _productService.RemoveAsync(_mapper.Map<Product>(id));
             return RedirectToAction(nameof(Index));
+        }
+  
+        public RedirectToActionResult LogOut()
+        {
+            return RedirectToAction("Login", "Home");
         }
     }
 }
