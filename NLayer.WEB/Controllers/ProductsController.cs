@@ -6,6 +6,10 @@ using NLayer.Core.DTO_s;
 using NLayer.Core.Models;
 using NLayer.Core.Services;
 using NLayer.Service.Services;
+using QRCoder;
+using System.Drawing.Imaging;
+using System.Drawing;
+using static QRCoder.PayloadGenerator;
 
 namespace NLayer.WEB.Controllers
 {
@@ -22,12 +26,12 @@ namespace NLayer.WEB.Controllers
             _categoryService = categoryService;
             _mapper = mapper;
         }
-        
+
         public async Task<IActionResult> Index()
         {
             return View(await _productService.GetProductWithCategory());
         }
-        
+
         public async Task<IActionResult> Save()
         {
             var categories = await _categoryService.GetAllAsync();
@@ -36,10 +40,26 @@ namespace NLayer.WEB.Controllers
             ViewBag.Categories = new SelectList(categoriesDto, "Id", "Name");
             return View();
         }
-        
+        private byte[] BitmapToByteArray(Bitmap bitmap)
+        {
+            using (MemoryStream ms = new MemoryStream())
+            {
+                bitmap.Save(ms, ImageFormat.Png);
+                return ms.ToArray();
+            }
+        }
+
         [HttpPost]
         public async Task<IActionResult> Save(ProductDTO productDTO)
         {
+
+            Payload payload = new Url($"");
+            QRCodeGenerator qrGenerator = new QRCodeGenerator();
+            QRCodeData qrCodeData = qrGenerator.CreateQrCode(payload);
+            QRCode qrCode = new QRCode(qrCodeData);
+            var qrCodeAsBitmap = qrCode.GetGraphic(20);
+            string base64String = Convert.ToBase64String(BitmapToByteArray(qrCodeAsBitmap));
+            productDTO.QRCode = "data:image/png;base64," + base64String;
 
             if (ModelState.IsValid)
             {
@@ -52,21 +72,21 @@ namespace NLayer.WEB.Controllers
             ViewBag.Categories = new SelectList(categoriesDto, "Id", "Name");
             return View();
         }
-    
+
         [ServiceFilter(typeof(NotFoundFilter<Product>))]
-        public async Task<IActionResult>Update(int id)
+        public async Task<IActionResult> Update(int id)
         {
             var product = await _productService.GetByIdAsync(id);
             var categories = await _categoryService.GetAllAsync();
 
             var categoriesDto = _mapper.Map<List<CategoryDTO>>(categories);
-            ViewBag.Categories = new SelectList(categoriesDto, "Id", "Name",product.CategoryId);
+            ViewBag.Categories = new SelectList(categoriesDto, "Id", "Name", product.CategoryId);
 
             return View(_mapper.Map<ProductDTO>(product));
         }
 
         [HttpPost]
-        public async Task<IActionResult>Update(ProductDTO productDTO)
+        public async Task<IActionResult> Update(ProductDTO productDTO)
         {
             if (ModelState.IsValid)
             {
@@ -76,16 +96,16 @@ namespace NLayer.WEB.Controllers
             var categories = await _categoryService.GetAllAsync();
 
             var categoriesDto = _mapper.Map<List<CategoryDTO>>(categories.ToList());
-            ViewBag.Categories = new SelectList(categoriesDto, "Id", "Name",productDTO.CategoryId);
+            ViewBag.Categories = new SelectList(categoriesDto, "Id", "Name", productDTO.CategoryId);
             return View(productDTO);
         }
- 
+
         public async Task<IActionResult> Remove(int id)
         {
             await _productService.RemoveAsync(_mapper.Map<Product>(id));
             return RedirectToAction(nameof(Index));
         }
-  
+
         public RedirectToActionResult LogOut()
         {
             return RedirectToAction("Login", "Home");

@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using NLayer.Data;
 
@@ -11,9 +12,10 @@ using NLayer.Data;
 namespace NLayer.Data.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230512110350_add-qrcode-property")]
+    partial class addqrcodeproperty
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -290,14 +292,14 @@ namespace NLayer.Data.Migrations
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<string>("QRCode")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<int>("Stock")
                         .HasColumnType("int");
 
                     b.Property<DateTime?>("UpdatedDate")
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("qrcode")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -310,7 +312,7 @@ namespace NLayer.Data.Migrations
                         {
                             Id = 1,
                             CategoryId = 1,
-                            CreatedDate = new DateTime(2023, 5, 12, 14, 35, 19, 631, DateTimeKind.Local).AddTicks(9150),
+                            CreatedDate = new DateTime(2023, 5, 12, 14, 3, 50, 133, DateTimeKind.Local).AddTicks(9770),
                             Name = "Kalem 1",
                             Price = 100m,
                             Stock = 10
@@ -319,7 +321,7 @@ namespace NLayer.Data.Migrations
                         {
                             Id = 2,
                             CategoryId = 1,
-                            CreatedDate = new DateTime(2023, 5, 12, 14, 35, 19, 631, DateTimeKind.Local).AddTicks(9169),
+                            CreatedDate = new DateTime(2023, 5, 12, 14, 3, 50, 133, DateTimeKind.Local).AddTicks(9794),
                             Name = "Kalem 2",
                             Price = 200m,
                             Stock = 20
@@ -328,7 +330,7 @@ namespace NLayer.Data.Migrations
                         {
                             Id = 3,
                             CategoryId = 1,
-                            CreatedDate = new DateTime(2023, 5, 12, 14, 35, 19, 631, DateTimeKind.Local).AddTicks(9173),
+                            CreatedDate = new DateTime(2023, 5, 12, 14, 3, 50, 133, DateTimeKind.Local).AddTicks(9799),
                             Name = "Kalem 3",
                             Price = 50m,
                             Stock = 50
@@ -337,7 +339,7 @@ namespace NLayer.Data.Migrations
                         {
                             Id = 4,
                             CategoryId = 2,
-                            CreatedDate = new DateTime(2023, 5, 12, 14, 35, 19, 631, DateTimeKind.Local).AddTicks(9176),
+                            CreatedDate = new DateTime(2023, 5, 12, 14, 3, 50, 133, DateTimeKind.Local).AddTicks(9803),
                             Name = "Kitap 1",
                             Price = 900m,
                             Stock = 8
@@ -346,7 +348,7 @@ namespace NLayer.Data.Migrations
                         {
                             Id = 5,
                             CategoryId = 2,
-                            CreatedDate = new DateTime(2023, 5, 12, 14, 35, 19, 631, DateTimeKind.Local).AddTicks(9179),
+                            CreatedDate = new DateTime(2023, 5, 12, 14, 3, 50, 133, DateTimeKind.Local).AddTicks(9808),
                             Name = "Kitap 2",
                             Price = 1000m,
                             Stock = 6
@@ -355,7 +357,7 @@ namespace NLayer.Data.Migrations
                         {
                             Id = 6,
                             CategoryId = 3,
-                            CreatedDate = new DateTime(2023, 5, 12, 14, 35, 19, 631, DateTimeKind.Local).AddTicks(9184),
+                            CreatedDate = new DateTime(2023, 5, 12, 14, 3, 50, 133, DateTimeKind.Local).AddTicks(9817),
                             Name = "Defter 1",
                             Price = 600m,
                             Stock = 12
