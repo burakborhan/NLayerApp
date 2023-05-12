@@ -27,7 +27,7 @@ builder.Services.AddIdentity<AppUser,AppRole>(options =>
 
 builder.Services.AddScoped(typeof(NotFoundFilter<>));
 builder.Services.AddAutoMapper(typeof(MapProfile));
-
+builder.Services.AddRazorPages();
 
 
 builder.Services.AddDbContext<AppDbContext>(x =>
@@ -65,6 +65,7 @@ cookieBuilder.SecurePolicy = CookieSecurePolicy.None;
 builder.Services.ConfigureApplicationCookie(Options =>
 {
     Options.LoginPath = new PathString("/Home/Login");
+    Options.LogoutPath = new PathString("/Products/LogOut");
     Options.Cookie = cookieBuilder;
     Options.SlidingExpiration = true;
     Options.ExpireTimeSpan = TimeSpan.FromDays(14);
