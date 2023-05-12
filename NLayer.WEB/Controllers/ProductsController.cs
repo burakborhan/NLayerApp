@@ -53,7 +53,7 @@ namespace NLayer.WEB.Controllers
         public async Task<IActionResult> Save(ProductDTO productDTO)
         {
 
-            Payload payload = new Url($"");
+            Payload payload = new Url($"https://localhost:7224/Products/Index");
             QRCodeGenerator qrGenerator = new QRCodeGenerator();
             QRCodeData qrCodeData = qrGenerator.CreateQrCode(payload);
             QRCode qrCode = new QRCode(qrCodeData);
