@@ -41,6 +41,7 @@ namespace NLayer.Cashing
             await CacheAllProductsAsync();
             return entity;
         }
+        
 
         public async Task<IEnumerable<Product>> AddRangeAsync(IEnumerable<Product> entities)
         {

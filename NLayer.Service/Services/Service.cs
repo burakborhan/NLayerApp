@@ -24,6 +24,7 @@ namespace NLayer.Service.Services
             await _unitOfWork.CommitAsync();
             return entity;
         }
+        
 
         public async Task<IEnumerable<T>> AddRangeAsync(IEnumerable<T> entities)
         {

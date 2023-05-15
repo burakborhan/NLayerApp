@@ -53,19 +53,16 @@ namespace NLayer.WEB.Controllers
         public async Task<IActionResult> Save(ProductDTO productDTO)
         {
 
-            Payload payload = new Url($"https://localhost:7224/Products/Index");
-            QRCodeGenerator qrGenerator = new QRCodeGenerator();
-            QRCodeData qrCodeData = qrGenerator.CreateQrCode(payload);
-            QRCode qrCode = new QRCode(qrCodeData);
-            var qrCodeAsBitmap = qrCode.GetGraphic(20);
-            string base64String = Convert.ToBase64String(BitmapToByteArray(qrCodeAsBitmap));
-            productDTO.QRCode = "data:image/png;base64," + base64String;
 
-            if (ModelState.IsValid)
+
+            if (!ModelState.IsValid)
             {
                 await _productService.AddAsync(_mapper.Map<Product>(productDTO));
                 return RedirectToAction(nameof(Index));
+
             }
+
+
             var categories = await _categoryService.GetAllAsync();
 
             var categoriesDto = _mapper.Map<List<CategoryDTO>>(categories);
@@ -90,6 +87,13 @@ namespace NLayer.WEB.Controllers
         {
             if (ModelState.IsValid)
             {
+                Payload payload = new Url($"https://localhost:7224/products/update/{productDTO.Id}");
+                QRCodeGenerator qrGenerator = new QRCodeGenerator();
+                QRCodeData qrCodeData = qrGenerator.CreateQrCode(payload);
+                QRCode qrCode = new QRCode(qrCodeData);
+                var qrCodeAsBitmap = qrCode.GetGraphic(20);
+                string base64String = Convert.ToBase64String(BitmapToByteArray(qrCodeAsBitmap));
+                productDTO.QRCode = "data:image/png;base64," + base64String;
                 await _productService.UpdateAsync(_mapper.Map<Product>(productDTO));
                 return RedirectToAction(nameof(Index));
             }

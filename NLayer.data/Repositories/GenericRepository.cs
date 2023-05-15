@@ -23,6 +23,7 @@ namespace NLayer.Data.Repositories
 
 
         }
+        
 
         public async Task AddRangeAsync(IEnumerable<T> entities)
         {
