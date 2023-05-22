@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using NLayer.Data;
 
@@ -11,9 +12,10 @@ using NLayer.Data;
 namespace NLayer.Data.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230515130545_price-relation")]
+    partial class pricerelation
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -337,7 +339,7 @@ namespace NLayer.Data.Migrations
                         {
                             Id = 1,
                             CategoryId = 1,
-                            CreatedDate = new DateTime(2023, 5, 15, 16, 10, 53, 986, DateTimeKind.Local).AddTicks(3406),
+                            CreatedDate = new DateTime(2023, 5, 15, 16, 5, 44, 783, DateTimeKind.Local).AddTicks(5009),
                             Name = "Kalem 1",
                             Price = 100m,
                             Stock = 10
@@ -346,7 +348,7 @@ namespace NLayer.Data.Migrations
                         {
                             Id = 2,
                             CategoryId = 1,
-                            CreatedDate = new DateTime(2023, 5, 15, 16, 10, 53, 986, DateTimeKind.Local).AddTicks(3445),
+                            CreatedDate = new DateTime(2023, 5, 15, 16, 5, 44, 783, DateTimeKind.Local).AddTicks(5028),
                             Name = "Kalem 2",
                             Price = 200m,
                             Stock = 20
@@ -355,7 +357,7 @@ namespace NLayer.Data.Migrations
                         {
                             Id = 3,
                             CategoryId = 1,
-                            CreatedDate = new DateTime(2023, 5, 15, 16, 10, 53, 986, DateTimeKind.Local).AddTicks(3452),
+                            CreatedDate = new DateTime(2023, 5, 15, 16, 5, 44, 783, DateTimeKind.Local).AddTicks(5032),
                             Name = "Kalem 3",
                             Price = 50m,
                             Stock = 50
@@ -364,7 +366,7 @@ namespace NLayer.Data.Migrations
                         {
                             Id = 4,
                             CategoryId = 2,
-                            CreatedDate = new DateTime(2023, 5, 15, 16, 10, 53, 986, DateTimeKind.Local).AddTicks(3459),
+                            CreatedDate = new DateTime(2023, 5, 15, 16, 5, 44, 783, DateTimeKind.Local).AddTicks(5035),
                             Name = "Kitap 1",
                             Price = 900m,
                             Stock = 8
@@ -373,7 +375,7 @@ namespace NLayer.Data.Migrations
                         {
                             Id = 5,
                             CategoryId = 2,
-                            CreatedDate = new DateTime(2023, 5, 15, 16, 10, 53, 986, DateTimeKind.Local).AddTicks(3463),
+                            CreatedDate = new DateTime(2023, 5, 15, 16, 5, 44, 783, DateTimeKind.Local).AddTicks(5038),
                             Name = "Kitap 2",
                             Price = 1000m,
                             Stock = 6
@@ -382,7 +384,7 @@ namespace NLayer.Data.Migrations
                         {
                             Id = 6,
                             CategoryId = 3,
-                            CreatedDate = new DateTime(2023, 5, 15, 16, 10, 53, 986, DateTimeKind.Local).AddTicks(3476),
+                            CreatedDate = new DateTime(2023, 5, 15, 16, 5, 44, 783, DateTimeKind.Local).AddTicks(5043),
                             Name = "Defter 1",
                             Price = 600m,
                             Stock = 12
@@ -489,7 +491,7 @@ namespace NLayer.Data.Migrations
             modelBuilder.Entity("NLayer.Core.Models.Price", b =>
                 {
                     b.HasOne("NLayer.Core.Models.Product", "Product")
-                        .WithMany()
+                        .WithMany("Prices")
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -526,6 +528,8 @@ namespace NLayer.Data.Migrations
 
             modelBuilder.Entity("NLayer.Core.Models.Product", b =>
                 {
+                    b.Navigation("Prices");
+
                     b.Navigation("productFeature")
                         .IsRequired();
                 });

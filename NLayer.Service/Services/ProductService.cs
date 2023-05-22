@@ -25,5 +25,13 @@ namespace NLayer.Service.Services
             return productsDto;
 
         }
+        public async Task<List<ProductWithCategoryDTO>> GetProductWithCategoryAndId(int id)
+        {
+            
+            var products = await _productRepository.GetProductWithCategoryAndId(id);
+            var productsDto = _mapper.Map<List<ProductWithCategoryDTO>>(products);
+
+            return productsDto;
+        }
     }
 }

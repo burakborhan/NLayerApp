@@ -15,6 +15,7 @@ namespace NLayer.Data
         public DbSet<Category> Categories { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<ProductFeature> productFeatures { get; set; }
+        public DbSet<Price> Prices { get; set; }
         public override int SaveChanges()
         {
             foreach (var item in ChangeTracker.Entries())
@@ -36,6 +37,8 @@ namespace NLayer.Data
                             }
                     }
                 }
+
+
             }
             return base.SaveChanges();
         }
@@ -60,12 +63,16 @@ namespace NLayer.Data
                             }
                     }
                 }
+
             }
+
+
             return base.SaveChangesAsync(cancellationToken);
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
+
 
             modelBuilder.Entity<ProductFeature>().HasData(new ProductFeature()
             {

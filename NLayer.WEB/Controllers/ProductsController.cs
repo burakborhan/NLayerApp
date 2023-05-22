@@ -10,6 +10,7 @@ using QRCoder;
 using System.Drawing.Imaging;
 using System.Drawing;
 using static QRCoder.PayloadGenerator;
+using Autofac.Core;
 
 namespace NLayer.WEB.Controllers
 {
@@ -55,7 +56,7 @@ namespace NLayer.WEB.Controllers
 
 
 
-            if (!ModelState.IsValid)
+            if (ModelState.IsValid)
             {
                 await _productService.AddAsync(_mapper.Map<Product>(productDTO));
                 return RedirectToAction(nameof(Index));
@@ -87,7 +88,7 @@ namespace NLayer.WEB.Controllers
         {
             if (ModelState.IsValid)
             {
-                Payload payload = new Url($"https://localhost:7224/products/update/{productDTO.Id}");
+                Payload payload = new Url($"https://localhost:7224/products/UpdatedPrices/{productDTO.Id}");
                 QRCodeGenerator qrGenerator = new QRCodeGenerator();
                 QRCodeData qrCodeData = qrGenerator.CreateQrCode(payload);
                 QRCode qrCode = new QRCode(qrCodeData);
@@ -104,9 +105,21 @@ namespace NLayer.WEB.Controllers
             return View(productDTO);
         }
 
+        [ServiceFilter(typeof(NotFoundFilter<Product>))]
+        public async Task<IActionResult> UpdatedPrices(int id)
+        {
+            return View(await _productService.GetProductWithCategoryAndId(id));
+        }
+
+    
+
+
         public async Task<IActionResult> Remove(int id)
         {
-            await _productService.RemoveAsync(_mapper.Map<Product>(id));
+            var product = await _productService.GetByIdAsync(id);
+
+            await _productService.RemoveAsync(product);
+
             return RedirectToAction(nameof(Index));
         }
 

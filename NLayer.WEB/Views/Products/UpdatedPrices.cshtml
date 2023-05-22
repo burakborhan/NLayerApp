@@ -1,0 +1,38 @@
+﻿@{
+    ViewData["Title"] = "UpdatedPrices";
+    Layout = "~/Views/Shared/_ProductLayout.cshtml";
+}
+@model List<ProductWithCategoryDTO>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <td>Name</td>
+            <td>Category</td>
+            <td>Past Price 1</td>
+            <td>Past Price 2</td>
+            <td>Past Price 3</td>
+            <td>Past Price 4</td>
+
+        </tr>
+    </thead>
+    <tbody>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Name</td>
+                <td>@item.Category.Name</td>
+                <td>@item.Price</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                
+            </tr>
+        }
+
+    </tbody>
+
+
+
+</table>
